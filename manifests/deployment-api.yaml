@@ -1,0 +1,47 @@
+# Define a deployment using ghcopilotacr.azurecr.io/publicapi:latest
+# metadata: name api label app: api
+# env: ASPNETCORE_ENVIRONMENT ASPNETCORE_URLS ConnectionStrings__CatalogConnection ConnectionStrings__IdentityConnection
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: notavalidregistry.azurecr.io/publicapi:v1.0.0
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: ConnectionStrings__CatalogConnection
+          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+        - name: ConnectionStrings__IdentityConnection
+          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+# ClusterIP for the api app on port 80 no labels
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: api

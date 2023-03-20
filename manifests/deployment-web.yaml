@@ -1,0 +1,52 @@
+# Define a deployment using ghcopilotacr.azurecr.io/web:latest
+# metadata: name web label app: web
+# env: ASPNETCORE_ENVIRONMENT ASPNETCORE_URLS ConnectionStrings__CatalogConnection ConnectionStrings__IdentityConnection
+# ports: containerPort: 80
+# resources: {}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: notavalidregistry.azurecr.io/web:v1.0.0
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: ConnectionStrings__CatalogConnection
+          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+        - name: ConnectionStrings__IdentityConnection
+          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+#  ClusterIP for the web app on port 80 with protocol TCP
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web
