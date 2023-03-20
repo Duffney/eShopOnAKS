@@ -184,5 +184,17 @@ Now, that you have the Kubernetes manifests, you can deploy the application to A
 2. Deploy the application to AKS:
 
     ```bash
-    kubectl apply -k manifests
+    # Deploy the database
+    kubectl apply -f manifests/deployment-db.yaml
+
+    # Deploy the application with kustomize
+    kubectl apply -k manifests/
     ```
+
+3. Port forward the application to your local machine:
+
+    ```bash
+    kubectl port-forward deployment/web 8080:80
+    ```
+
+4. Open a browser and navigate to `http://localhost:8080`. You should see the application running.
