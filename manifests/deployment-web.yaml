@@ -28,9 +28,9 @@ spec:
         - name: ASPNETCORE_URLS
           value: "http://+:80"
         - name: ConnectionStrings__CatalogConnection
-          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+          value: Server=db,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Trusted_Connection=false;TrustServerCertificate=True; 
         - name: ConnectionStrings__IdentityConnection
-          value: "Server=ghcopilotdbserver.database.windows.net;Database=ghcopilotdb;User Id=ghcopilotdbadmin;Password=ghcopilotdbadmin1234;"
+          value: Server=db,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Trusted_Connection=false;TrustServerCertificate=True;
         ports:
         - containerPort: 80
         resources: {}

@@ -25,7 +25,7 @@ spec:
         - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
-          value: "P@ssw0rd"
+          value: "@someThingComplicated1234"
         - name: MSSQL_PID
           value: "Developer"
 ---
