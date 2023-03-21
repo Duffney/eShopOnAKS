@@ -1,13 +1,15 @@
 # Using Copilot to lower the learning curve to successfully adopt Azure Kubernetes Service
 
 ## Table of Contents
-- [Dockerfiles]
-- [Kubernetes Manifests]
-- [Deploying to AKS]
+- [Step 1: Creating the Dockerfile](#creating-the-dockerfile)
+- [Step 2: Writing the Kubernetes Manifests](#writing-the-kubernetes-manifests)
+- [Step 3: Deploying to AKS](#deploying-to-aks)
 
 ## Creating the Dockerfile
 
-The Dockerfile is a text file that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
+The Dockerfile is a text file that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession. 
+
+In the following steps, you will create a Dockerfile for the Web and PublicApi projects.
 
 1. Create an empty file `Dockerfile` in the `src/Web` directory.
 2. Use comments to create a multi-stage Dockerfile for the Web project:
@@ -34,7 +36,7 @@ The Dockerfile is a text file that contains all the commands a user could call o
     # Run the application
     ```
 
-    Place your cursor at the beginning of each blank line and allow GitHub Copilot to suggest the appropriate command. Your Dockerfile should look like [this](/src/Web/Dockerfile).
+    Place your cursor at the beginning of each blank line and allow GitHub Copilot to suggest the appropriate command. Afterwards, your Dockerfile should look like [this](/src/Web/Dockerfile).
 
 3. Create an empty file `Dockerfile` in `src/PublicApi`.
 4. Use comments to create a multi-stage Dockerfile for the PublicApi project:
@@ -79,9 +81,9 @@ The Dockerfile is a text file that contains all the commands a user could call o
 
     If necessary, login to the Azure Container Registry with the `az acr login` command.
 
-## Writing the Kubernetes Configurations
+## Writing the Kubernetes Manifests
 
-Kubernetes manifests are YAML files that describe the desired state of your application and how to deploy it. The Kubernetes manifests for this application are located in the `manifests` directory.
+Kubernetes manifests are YAML files that describe the desired state of your application and how to deploy it. In the following steps, you will create a deployment manifest for the eShopWeb appliaction by writing a manifest for the database, web and publicApi projects.
 
 1. Create a `manifests` directory in the root of the project.
 
@@ -179,7 +181,7 @@ Now, that you have the Kubernetes manifests, you can deploy the application to A
     # kubectl apply manifests with kustomize
     ```
 
-    Type out the contents of the kustomize file as show above and accept the suggestions from Copilot. Replace the `newName` and `newTag` values with the appropriate values. Once you have done that, your file should look like [this](/manifests/kustomization.yaml).
+    Type out the contents of the kustomize file as show above and accept the suggestions from Copilot. Replace the `newName` and `newTag` values with the appropriate values from your ACR instance. Once you have done that, your file should look like [this](/manifests/kustomization.yaml).
 
 2. Deploy the application to AKS:
 
