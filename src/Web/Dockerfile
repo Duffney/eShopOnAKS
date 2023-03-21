@@ -1,5 +1,5 @@
 # Build stage
-# Use an .NET dsk 7.0 runtime as build image
+# Use a .net sdk 7.0 image as build
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 # Set the working directory to /app
 WORKDIR /app
@@ -20,5 +20,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 # Copy the published app from the build image
 COPY --from=build /app/src/Web/out .
-# Run the application
+# Run the app
 ENTRYPOINT ["dotnet", "Web.dll"]
