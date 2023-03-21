@@ -1,4 +1,4 @@
-# Define a deployment using ghcopilotacr.azurecr.io/web:latest
+# Define a deployment using ghcopilotacr.azurecr.io/web:v1.0.0
 # metadata: name web label app: web
 # env: ASPNETCORE_ENVIRONMENT ASPNETCORE_URLS ConnectionStrings__CatalogConnection ConnectionStrings__IdentityConnection
 # ports: containerPort: 80
