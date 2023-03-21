@@ -13,8 +13,8 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Runtime stage
-# Use an .NET sdk 7.0 runtime as base image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Use aspnet 7.0 as runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 
 # Set the working directory to /app
 WORKDIR /app
