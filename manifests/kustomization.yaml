@@ -3,11 +3,11 @@ resources:
 - deployment-web.yaml
 
 images:
-- name: notavalidregistry.azurecr.io/publicapi:v1.0.0
-  newName: ghcopilotacr.azurecr.io/publicapi
-  newTag: v1.0.0
 - name: notavalidregistry.azurecr.io/web:v1.0.0
   newName: ghcopilotacr.azurecr.io/web
+  newTag: v1.0.0
+- name: notavalidregistry.azurecr.io/api:v1.0.0
+  newName: ghcopilotacr.azurecr.io/api
   newTag: v1.0.0
 
 

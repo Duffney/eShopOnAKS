@@ -170,11 +170,11 @@ Now, that you have the Kubernetes manifests, you can deploy the application to A
       - deployment-api.yaml
 
     images:
-    - name: notavalidregistry.azurecr.io/web:v1.0.0
-    newName: <YOUR_ACR_SERVER>/api
-    newTag: <YOUR_IMAGE_TAG>
     - name: notavalidregistry.azurecr.io/api:v1.0.0
     newName: <YOUR_ACR_SERVER>/web
+    newTag: <YOUR_IMAGE_TAG>
+    - name: notavalidregistry.azurecr.io/web:v1.0.0
+    newName: <YOUR_ACR_SERVER>/api
     newTag: <YOUR_IMAGE_TAG>
 
     # kubectl apply manifests with kustomize
