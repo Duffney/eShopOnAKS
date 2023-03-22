@@ -22,18 +22,20 @@ In the following steps, you will create a Dockerfile for the Web and PublicApi p
 
     # Copy the current directory contents into the container at /app
 
+    # Set the working dir to /app/src/Web
+
     # Restore packages
 
-    # Publish a release build to the /app/out directory
+    # Publish a release build to /app/out
 
     # Runtime stage
-    # Use an .NET sdk 7.0 runtime as base image
+    # Use aspnet 7.0 as runtime image
 
     # Set the working directory to /app
 
-    # Copy the published app from the build image
+    # Copy the published app from the build stage
 
-    # Run the application
+    # Run the app
     ```
 
     Place your cursor at the beginning of each blank line and allow GitHub Copilot to suggest the appropriate command. Afterwards, your Dockerfile should look like [this](/src/Web/Dockerfile).
@@ -57,7 +59,6 @@ In the following steps, you will create a Dockerfile for the Web and PublicApi p
     # Set the working directory to /app
     # Copy the published app from the build image
     # Run the application when the container launches
-
     ```
 
     Place your cursor at the beginning of each blank line and allow GitHub Copilot to suggest the appropriate command. Your Dockerfile should look like [this](/src/PublicApi/Dockerfile). 
@@ -69,14 +70,14 @@ In the following steps, you will create a Dockerfile for the Web and PublicApi p
     ```bash
     ACR_NAME=youracrname
     docker build . -f src/Web/Dockerfile -t $ACR_NAME.azurecr.io/web:v1.0.0
-    docker build . -f src/PublicApi/Dockerfile -t $ACR_NAME.azurecr.io/publicapi:v1.0.0
+    docker build . -f src/PublicApi/Dockerfile -t $ACR_NAME.azurecr.io/api:v1.0.0
     ```
 
 5. Push the container images to the Azure Container Registry:
 
     ```bash
     docker push $ACR_NAME.azurecr.io/web:v1.0.0
-    docker push $ACR_NAME.azurecr.io/publicapi:v1.0.0
+    docker push $ACR_NAME.azurecr.io/api:v1.0.0
     ```
 
     If necessary, login to the Azure Container Registry with the `az acr login` command.
@@ -140,18 +141,16 @@ Kubernetes manifests are YAML files that describe the desired state of your appl
     | ConnectionStrings__CatalogConnection | Server=db,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Trusted_Connection=false;TrustServerCertificate=True; |
     | ConnectionStrings__IdentityConnection | Server=db,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Trusted_Connection=false;TrustServerCertificate=True; |
 
-7. Under the `manifests` directory, create the `deployment-publicapi.yaml` file.
+7. Under the `manifests` directory, create the `deployment-api.yaml` file.
 
     ```bash
-    touch manifests/deployment-publicapi.yaml
+    touch manifests/deployment-api.yaml
     ```
 
 8. Use comments to create a deployment manifest for the PublicApi project:
 
     ```yaml
-    # Define a deployment using notavalidregistry.azurecr.io/publicapi:v1.0.0
-    # metadata: name api label app: api
-    # env: ASPNETCORE_ENVIRONMENT ASPNETCORE_URLS ConnectionStrings__CatalogConnection ConnectionStrings__IdentityConnection
+    # Define a deployment using notavalidregistry.azurecr.io/api:v1.0.0
 
     ---
     # ClusterIP for the api app on port 80 no labels
@@ -168,13 +167,13 @@ Now, that you have the Kubernetes manifests, you can deploy the application to A
     ```yaml
     resources:
       - deployment-web.yaml
-      - deployment-publicapi.yaml
+      - deployment-api.yaml
 
     images:
-    - name: notavalidregistry.azurecr.io/api:v0.1.0
+    - name: notavalidregistry.azurecr.io/web:v1.0.0
     newName: <YOUR_ACR_SERVER>/api
     newTag: <YOUR_IMAGE_TAG>
-    - name: notavalidregistry.azurecr.io/web:v0.1.0
+    - name: notavalidregistry.azurecr.io/api:v1.0.0
     newName: <YOUR_ACR_SERVER>/web
     newTag: <YOUR_IMAGE_TAG>
 

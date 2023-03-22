@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: notavalidregistry.azurecr.io/publicapi:v1.0.0
+        image: notavalidregistry.azurecr.io/api:v1.0.0
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
